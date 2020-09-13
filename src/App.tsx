@@ -1,26 +1,91 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ChangeEvent, FormEvent, useState } from 'react'
+
+import './App.css'
 
 function App() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [age, setAge] = useState<number | string>('')
+  const [smoke, setSmoke] = useState(false)
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === 'name') setName(e.target.value)
+    if (e.target.name === 'email') setEmail(e.target.value)
+    if (e.target.name === 'age') setAge(+e.target.value)
+    if (e.target.name === 'some')
+      setSmoke(e.target.value === 'true' ? true : false)
+  }
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    console.log(name, email, age, smoke)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <form className='form' onSubmit={onSubmit}>
+        <div className='input-container'>
+          <label htmlFor='Name'>Name</label>
+          <input
+            type='text'
+            placeholder='Your name'
+            name='name'
+            value={name}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className='input-container'>
+          <label htmlFor='Email'>Email</label>
+          <input
+            type='text'
+            placeholder='Your email'
+            name='email'
+            value={email}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className='input-container'>
+          <label htmlFor='Age'>Age</label>
+          <input
+            type='number'
+            placeholder='Your age'
+            name='age'
+            value={age}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className='input-container'>
+          <label htmlFor='Smoke'>Do you smoke?</label>
+          <div>
+            <label htmlFor='Yes'>
+              <input
+                type='radio'
+                name='smoke'
+                value='true'
+                onChange={onChange}
+              />
+              yes
+            </label>
+            <label htmlFor='No'>
+              <input
+                type='radio'
+                name='smoke'
+                value='false'
+                onChange={onChange}
+              />
+              no
+            </label>
+          </div>
+        </div>
+
+        <button type='submit'>Submit</button>
+      </form>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
